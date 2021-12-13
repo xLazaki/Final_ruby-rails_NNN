@@ -1,0 +1,7 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  channel_name: Test1
+  about: Test1
+  user: one
+  id: 1

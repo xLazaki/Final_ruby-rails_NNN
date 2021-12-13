@@ -1,0 +1,22 @@
+<% # frozen_string_literal: true %>
+<html style="background-color: #101010;"></html>
+<body style="background-color: #101010;"></body>
+<div class="container">
+  <h1 style="color: white;text-align: center;">Twitch</h1>
+  <%= form_with do |form| %>
+    <div class="field">
+      <%= form.text_field :email ,class:"form-control w-50 shadow center col-4" ,placeholder: "Email" , style: 'text-align : center;' %>
+      <%= form.password_field :password ,class:"form-control w-75 m-3 shadow center col-10" ,placeholder:"Password", style: 'text-align : center;' %>
+      <div class="row">
+        <div class="col-4">
+          <%= button_to "Login" ,"/login" ,class:"btn btn-primary", style: "background-color: #6441a5; " %>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-4">
+          <%= button_to "Register" ,"/users/new" ,class:"btn btn-primary mt-2 " ,style: "background-color: #6441a5; color:white;" ,method:"get", id:"register" %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>

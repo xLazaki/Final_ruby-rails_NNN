@@ -1,0 +1,14 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  comment: MyText
+  user: one
+  video: one
+  id: 1
+
+two:
+  comment: MyText
+  user: two
+  video: two
+  id: 2
+  

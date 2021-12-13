@@ -1,0 +1,147 @@
+<style>
+html,body {
+  font-family: "Lato", sans-serif;
+  margin:0;
+  padding: 0;
+}
+
+.sidenav {
+  height: 100%;
+  width: 200px;
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #111;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+}
+
+.sidenav a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 20px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+}
+
+.sidenav a:hover {
+  color: #FFFFFF;
+}
+#main {
+  padding: 0px;
+  margin-left: 210px;
+  width: 100wv;
+}
+ul {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+li {
+  height: 40vh;
+  flex-grow: 1;
+}
+
+img {
+  max-height: 100%;
+  min-width: 100%;
+  object-fit: cover;
+  vertical-align: bottom;
+}
+.card {
+        margin: 0 auto; /* Added */
+        float: none; /* Added */
+        margin-bottom: 10px; /* Added */
+        background-color: grey;
+}
+#head {
+  color:purple;
+  font-size: 22px;
+  background-color: white;
+}
+.card{
+  background-color:grey;
+}
+</style>
+<% # frozen_string_literal: true %>
+<body id="main"style="background-color: #848494;">
+  <div id="mySidenav" class="sidenav">
+    <a id="head">Followed Channel</a>
+  </div>
+  <div class="row justify-content-start">
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark justify-content-between">
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+          <a class="navbar-brand" href="/main">Home</a>
+          <a class="navbar-brand" href="/select_tag">Tag</a>
+          <a class="navbar-brand" href="/all_channel">All Channel</a>
+        </div>
+      </div>
+      <div style="margin-right:30px">
+        <%= button_to "Log-out" ,"/login" ,class:"btn btn-primary", style: "background-color: #6441a5;" %>
+      </div>
+    </nav>
+  </div>
+  </div>
+  <div>This video</div>
+  <% if @channel.thumbnail.attached? %>
+  <div class="card" style="width: 1000px;">
+     <video id="my-video" class="video-js"controls preload="auto" width="1000" height="500" poster="<%= url_for(@video.thumbnail) %>" data-setup="{}">
+        <source src="<%= url_for(@video.clip) %>" type="video/mp4" />
+        <source src="MY_VIDEO.webm" type="video/webm" />
+        <p class="vjs-no-js">
+          <a href="https://videojs.com/html5-video-support/" target="_blank">
+            supports HTML5 video
+          </a>
+        </p>
+      </video>
+    <div class="card-body">
+      <link href="https://vjs.zencdn.net/7.17.0/video-js.css" rel="stylesheet" />
+        <!-- If you'd like to support IE8 (for Video.js versions prior to v7) -->
+      <script src="https://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script>
+      <p>
+        <strong>Title:</strong>
+        <%= @video.title %>
+        <br>
+        <strong>Description:</strong>
+        <%= @video.description %>
+        <% if @current_user.videos.include?(@video) %>
+          <h5><%= button_to "Unlike", unlike_channel_path, method: "POST" %></h5>
+        <% else %>
+          <h5><%= button_to "Like", like_channel_path, method: "POST" %></h5>
+        <% end%>
+      </p>
+    </div>
+  </div>
+  <div class="card" style="width: 500px;">
+      <%= image_tag(@channel.thumbnail , style:'width:auto; height:auto') %>
+      <div class="card-body">
+        <h5 class="card-title">Channel: <%= @channel.channel_name %></h5>
+        <p class="card-text"><%= @channel.about %></p>
+     </div>
+    </div>
+    <% end %>
+<div class="w3-container">
+  <h4>Comment</h4>
+    <% if @current_user %>
+        <%= form_with model: @comment do |f| %>
+            <%= f.text_field :body %>
+            <%= f.submit  :comment %>
+
+        <%end%>
+    <%end%>
+</div>
+<div class="card">
+    <% @comments.each do |comment| %>
+        <div class="d-flex bd-highlight">
+            <div class="p-2 flex-grow-1 bd-highlight"><%=comment.user_id%></div>
+            <div class="p-2 flex-grow-1 bd-highlight"><%=comment.comment%></div>
+            <div class="p-2 bd-highlight"><%=time_ago_in_words(comment.created_at)%></div> 
+        </div>
+        <hr>
+    <%end%>
+</div>
+</body>

@@ -1,0 +1,190 @@
+<style>
+html,body {
+  font-family: "Lato", sans-serif;
+  margin:0;
+  padding: 0;
+}
+
+.sidenav {
+  height: 100%;
+  width: 200px;
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #111;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+}
+
+.sidenav a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 20px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+}
+
+.sidenav a:hover {
+  color: #FFFFFF;
+}
+#main {
+  padding: 0px;
+  margin-left: 210px;
+  width: 100wv;
+}
+ul {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+li {
+  height: 40vh;
+  flex-grow: 1;
+}
+
+img {
+  max-height: 100%;
+  min-width: 100%;
+  object-fit: cover;
+  vertical-align: bottom;
+}
+#head {
+  color:purple;
+  font-size: 22px;
+  background-color: white;
+}
+#g{
+  margin: 20px;
+}
+.card{
+  background-color:grey;
+}
+</style>
+<% # frozen_string_literal: true %>
+<body id="main"style="background-color: #848494;">
+  <div id="mySidenav" class="sidenav">
+    <a id="head">Followed Channel</a>
+      <% if @current_user != nil %>
+      <% @channel_followed.each do |channel| %>
+            <a href="channels/<%= channel.id %>" ><%= channel.channel_name %></a>  
+      <% end %>
+      <% end %>
+  </div>
+  <div class="row justify-content-start">
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark justify-content-between">
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+          <a class="navbar-brand" href="/main">Home</a>
+          <a class="navbar-brand" href="/select_tag">Tag</a>
+          <a class="navbar-brand" href="/all_channel">All Channel</a>
+        </div>
+      </div>
+      <div style="margin-right:30px">
+        <% if session[:user_id]==nil %>
+        <%= button_to "Login" ,"/login" ,class:"btn btn-primary", style: "background-color: #6441a5; width:80px", method:"get" %>
+        <% else %>
+        <% if @channel == nil %>
+          <%= button_to "Create Channel" ,"/channels/new" ,class:"btn btn-primary", style: "background-color: #6441a5;", method:"post" %>
+        <% else %>
+          <%= button_to "Your channel" ,"/my_channel" ,class:"btn btn-primary", style: "background-color: #6441a5;" %>
+        <% end %>
+        <%= button_to "Log-out" ,"/Log-out" ,class:"btn btn-primary", style: "background-color: #6441a5;", method: :"delete" %>
+        <% end %>
+      </div>
+    </nav>
+  </div>
+  <div>
+    <h1> MAIN </h1>
+    <% if session[:user_id] != nil %>
+    <% if Tag.find_by(user_id:@current_user.id) != nil %>
+     <h1> Tag that you followed </h1>
+     <% else %>
+     <%= button_to "Find out!!" ,"/select_tag" ,class:"btn btn-primary", style: "background-color: #6441a5;", id:"g" %>
+     <% end %>
+     <% if Tag.find_by(user_id:@current_user.id) != nil %>
+      <table class='table' border="5px">
+      <tr>
+        <td>
+          <% if Tag.find_by(user_id:@current_user.id,tag_name:'FPS')!=nil %>
+          <div class="card" style="width: 18rem;">
+            <img src="https://i.pinimg.com/474x/66/de/85/66de853a332d06413d3f6f39303ee366.jpg" class="card-img-top">
+            <div class="card-body">
+              <h5 class="card-title">FPS</h5>
+              <a href="/tag/?name_tag=FPS" class="btn btn-primary">Find Video</a>
+            </div>
+          </div>
+             <% end %>
+        </td>
+        <td>
+          <% if Tag.find_by(user_id:@current_user.id,tag_name:'GameCard')!=nil %>
+          <div class="card" style="width: 18rem;">
+            <img src="https://th.portal-pokemon.com/assets_c/2021/05/5dd2c1625486b50b90d76e4a53aeb3e8d3e179df-thumb-624xauto-16457.png" class="card-img-top">
+            <div class="card-body">
+              <h5 class="card-title">GAME CARD</h5>
+              <a href="/tag/?name_tag=GameCard" class="btn btn-primary">Find Video</a>
+            </div>
+          </div>
+          <% end %>
+        </td>
+        <td>
+          <% if Tag.find_by(user_id:@current_user.id,tag_name:'MOBA')!=nil %>
+          <div class="card" style="width: 18rem;">
+            <img src="https://www.mykhel.com/img/400x90/2020/04/dota-2-valve-1586941428.jpg" class="card-img-top">
+              <div class="card-body">
+                <h5 class="card-title">MOBA</h5>
+                <a href="/tag/?name_tag=MOBA" class="btn btn-primary">Find Video</a>
+              </div>
+            </div>
+            <% end %>
+        </td>
+        <td>
+          <% if Tag.find_by(user_id:@current_user.id,tag_name:'RPG')!=nil %>
+        <div class="card" style="width: 18rem;">
+          <img src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/untitled-1-1-1566593533.jpg" class="card-img-top">
+            <div class="card-body">
+             <h5 class="card-title">RPG</h5>
+             <a href="/tag/?name_tag=RPG" class="btn btn-primary">Find Video</a>
+            </div>
+        </div>
+            <% end %>
+      </td>
+      <td>
+        <% if Tag.find_by(user_id:@current_user.id,tag_name:'Strategy')!=nil %>
+        <div class="card" style="width: 18rem;">
+        <img src="https://media.wired.co.uk/photos/606dae60f19707fe1aef38f4/16:9/w_2560%2Cc_limit/CivilizationVI_screenshot_announce1.jpg" class="card-img-top">
+        <div class="card-body">
+          <h5 class="card-title">Strategy</h5>
+          <a href="/tag/?name_tag=strategy" class="btn btn-primary">Find Video</a>
+        </div>
+      </div>
+      <% end %>
+      </td>
+        </tr>
+      </table>
+      <% end %>
+      <table margin="5px">
+    <tr>
+      <% @channel_followed.each do |channel| %>
+      <td>
+        <div class="card" style="width: 18rem;">
+          <% if channel.thumbnail.attached? %>
+          <%= image_tag(channel.thumbnail , style:'width:100%; height:auto') %>
+          <% end %>
+          <div class="card-body">
+            <h5 class="card-title">Channel: <%= channel.channel_name %></h5>
+            <p class="card-text"><%= channel.about %></p>
+            <a href="channels/<%= channel.id %>" class="btn btn-primary">See channel!!</a>
+          </div>
+        </div>
+      </td>
+      <% end %>
+      </tr>
+    </table>
+  </div>
+  <% else %>
+  <h1> Please Login </h1>
+  <% end %> 
+</body>

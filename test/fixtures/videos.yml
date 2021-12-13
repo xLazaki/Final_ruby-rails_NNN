@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: MyText
+  description: MyText
+  tag: MyText
+  channel_id: 1
+  id: 1
+
+two:
+  title: MyText
+  description: MyText
+  tag: MyText
+  channel_id: 2
+  id: 2
